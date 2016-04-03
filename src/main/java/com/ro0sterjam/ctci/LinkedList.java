@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
  */
 public class LinkedList<T> {
 
-    private Node<T> head;
+    private SinglyLinkedNode<T> head;
 
     public T head() {
         if (head == null) {
@@ -18,7 +18,7 @@ public class LinkedList<T> {
     }
 
     public int size() {
-        Node<T> node = head;
+        SinglyLinkedNode<T> node = head;
         int i = 0;
         while (node != null) {
             node = node.next;
@@ -28,7 +28,7 @@ public class LinkedList<T> {
     }
 
     public void removeDuplicates() {
-        Node<T> node = head;
+        SinglyLinkedNode<T> node = head;
         while (node != null && node.next != null) {
             node.next = removeAll(node.next, node.value);
             node = node.next;
@@ -40,7 +40,7 @@ public class LinkedList<T> {
             return (T[]) new Object[0];
         }
         T[] array = (T[]) Array.newInstance(head.value.getClass(), size());
-        Node<T> node = head;
+        SinglyLinkedNode<T> node = head;
         int i = 0;
         while (node != null) {
             array[i++] = node.value;
@@ -55,7 +55,7 @@ public class LinkedList<T> {
         } else if (i < 0) {
             return reverseGet(-i - 1);
         } else {
-            Node<T> node = head;
+            SinglyLinkedNode<T> node = head;
             while (i-- > 0 && node != null) {
                 node = node.next;
             }
@@ -70,14 +70,14 @@ public class LinkedList<T> {
         if (i < 0 || head == null) {
             throw new IndexOutOfBoundsException();
         }
-        Node<T> runner = head;
+        SinglyLinkedNode<T> runner = head;
         while (i-- >= 0) {
             if (runner == null) {
                 throw new IndexOutOfBoundsException();
             }
             runner = runner.next;
         }
-        Node<T> node = head;
+        SinglyLinkedNode<T> node = head;
         while (runner != null) {
             runner = runner.next;
             node = node.next;
@@ -87,8 +87,8 @@ public class LinkedList<T> {
 
     public boolean isPalindrome() {
         LinkedList<T> reversed = reverse();
-        Node<T> node1 = head;
-        Node<T> node2 = reversed.head;
+        SinglyLinkedNode<T> node1 = head;
+        SinglyLinkedNode<T> node2 = reversed.head;
         while (node1 != null && node2 != null) {
             if (node1.value != node2.value) {
                 return false;
@@ -100,11 +100,11 @@ public class LinkedList<T> {
     }
 
     public LinkedList<T> reverse() {
-        Node<T> cursor = head;
-        Node<T> node = null;
+        SinglyLinkedNode<T> cursor = head;
+        SinglyLinkedNode<T> node = null;
         while (cursor != null) {
-            Node<T> temp = node;
-            node = new Node<>(cursor.value);
+            SinglyLinkedNode<T> temp = node;
+            node = new SinglyLinkedNode<>(cursor.value);
             node.next = temp;
             cursor = cursor.next;
         }
@@ -118,22 +118,22 @@ public class LinkedList<T> {
         if (elements.length == 0) {
             return list;
         }
-        list.head = new Node<>(elements[0]);
-        Node<T> node = list.head;
+        list.head = new SinglyLinkedNode<>(elements[0]);
+        SinglyLinkedNode<T> node = list.head;
         for (int i = 1; i < elements.length; i++) {
-            node.next = new Node<>(elements[i]);
+            node.next = new SinglyLinkedNode<>(elements[i]);
             node = node.next;
         }
         return list;
     }
 
     public static <T extends Comparable<T>> void partition(LinkedList<T> list, T value) {
-        Node<T> lt = null;
-        Node<T> ge = null;
-        Node<T> runner = list.head;
-        Node<T> mid = null;
+        SinglyLinkedNode<T> lt = null;
+        SinglyLinkedNode<T> ge = null;
+        SinglyLinkedNode<T> runner = list.head;
+        SinglyLinkedNode<T> mid = null;
         while (runner != null) {
-            Node<T> next = runner.next;
+            SinglyLinkedNode<T> next = runner.next;
             if (runner.value.compareTo(value) < 0) {
                 runner.next = lt;
                 lt = runner;
@@ -166,10 +166,10 @@ public class LinkedList<T> {
         }
 
         int sizeDiff = list2.size() - list1.size();
-        Node<Integer> head1 = pad(list1.head, sizeDiff);
-        Node<Integer> head2 = pad(list2.head, -sizeDiff);
+        SinglyLinkedNode<Integer> head1 = pad(list1.head, sizeDiff);
+        SinglyLinkedNode<Integer> head2 = pad(list2.head, -sizeDiff);
 
-        Node<Integer> sum = sum(head1, head2);
+        SinglyLinkedNode<Integer> sum = sum(head1, head2);
         if (sum.value == 0 && sum.next != null) {
             sum = sum.next;
         }
@@ -178,22 +178,22 @@ public class LinkedList<T> {
         return sumList;
     }
 
-    private static Node<Integer> pad(Node<Integer> node, int length) {
+    private static SinglyLinkedNode<Integer> pad(SinglyLinkedNode<Integer> node, int length) {
         while (length-- > 0) {
-            Node<Integer> temp = node;
-            node = new Node<>(0);
+            SinglyLinkedNode<Integer> temp = node;
+            node = new SinglyLinkedNode<>(0);
             node.next = temp;
         }
         return node;
     }
 
-    private static Node<Integer> sum(Node<Integer> node1, Node<Integer> node2) {
+    private static SinglyLinkedNode<Integer> sum(SinglyLinkedNode<Integer> node1, SinglyLinkedNode<Integer> node2) {
         if (node1 == null && node2 == null) {
-            return new Node<>(0);
+            return new SinglyLinkedNode<>(0);
         } else {
-            Node<Integer> carry = sum(node1.next, node2.next);
+            SinglyLinkedNode<Integer> carry = sum(node1.next, node2.next);
             int partialSum = node1.value + node2.value + carry.value;
-            Node<Integer> node = new Node<>(partialSum % 10);
+            SinglyLinkedNode<Integer> node = new SinglyLinkedNode<>(partialSum % 10);
             node.next = carry.next;
             carry.value = partialSum / 10;
             carry.next = node;
@@ -201,18 +201,18 @@ public class LinkedList<T> {
         }
     }
 
-    private static Node<Integer> reverseSum(Node<Integer> node1, Node<Integer> node2, int carry) {
+    private static SinglyLinkedNode<Integer> reverseSum(SinglyLinkedNode<Integer> node1, SinglyLinkedNode<Integer> node2, int carry) {
         if (node1 == null && node2 == null && carry == 0) {
             return null;
         }
         int sum = (node1 == null? 0 : node1.value) + (node2 == null? 0 : node2.value) + carry;
-        Node<Integer> result = new Node<>(sum % 10);
+        SinglyLinkedNode<Integer> result = new SinglyLinkedNode<>(sum % 10);
         carry = sum / 10;
         result.next = reverseSum(node1 == null? null : node1.next, node2 == null? null : node2.next, carry);
         return result;
     }
 
-    private <T> Node<T> removeAll(Node<T> root, T value) {
+    private <T> SinglyLinkedNode<T> removeAll(SinglyLinkedNode<T> root, T value) {
         if (root == null) {
             return null;
         }

@@ -5,11 +5,11 @@ package com.ro0sterjam.ctci;
  */
 public class Queue<T> {
 
-    private Node<T> front;
-    private Node<T> back;
+    private SinglyLinkedNode<T> front;
+    private SinglyLinkedNode<T> back;
 
     public void enqueue(T value) {
-        Node<T> node = new Node<>(value);
+        SinglyLinkedNode<T> node = new SinglyLinkedNode<>(value);
         if (front == null) {
             front = back = node;
         } else {

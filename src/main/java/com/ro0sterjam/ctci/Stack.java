@@ -7,11 +7,11 @@ import java.lang.reflect.Array;
  */
 public class Stack<T> {
 
-    private Node<T> top;
+    private SinglyLinkedNode<T> top;
     private int size = 0;
 
     public void push(T value) {
-        Node<T> node = new Node<>(value);
+        SinglyLinkedNode<T> node = new SinglyLinkedNode<>(value);
         node.next = top;
         top = node;
         size++;
@@ -21,7 +21,7 @@ public class Stack<T> {
         if (top == null) {
             return null;
         }
-        Node<T> node = top;
+        SinglyLinkedNode<T> node = top;
         top = node.next;
         size--;
         return node.value;
@@ -47,7 +47,7 @@ public class Stack<T> {
             return (T[]) new Object[0];
         }
         T[] array = (T[]) Array.newInstance(top.value.getClass(), size());
-        Node<T> node = top;
+        SinglyLinkedNode<T> node = top;
         int i = size() - 1;
         while (node != null) {
             array[i--] = node.value;
