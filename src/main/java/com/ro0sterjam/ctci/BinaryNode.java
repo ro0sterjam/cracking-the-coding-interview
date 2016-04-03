@@ -22,7 +22,17 @@ public class BinaryNode<T> {
     }
 
     public boolean isBalanced() {
-        return (left == null || left.isBalanced()) && (right == null || right.isBalanced()) && Math.abs((left == null? -1 : left.height()) - (right == null? -1: right.height())) < 2;
+        return balancedHeight() != -1;
+    }
+
+    private int balancedHeight() {
+        int leftHeight = left == null? -1 : left.balancedHeight();
+        int rightHeight = right == null? -1 : right.balancedHeight();
+        if (left != null && leftHeight == -1 || right != null && rightHeight == -1 || Math.abs(leftHeight - rightHeight) > 1) {
+            return -1;
+        } else {
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
     }
 
 }
