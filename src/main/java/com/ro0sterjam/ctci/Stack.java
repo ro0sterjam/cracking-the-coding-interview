@@ -1,5 +1,7 @@
 package com.ro0sterjam.ctci;
 
+import java.lang.reflect.Array;
+
 /**
  * Created by kenwang on 2016-04-02.
  */
@@ -40,11 +42,38 @@ public class Stack<T> {
         return size == 0;
     }
 
-    public static <T extends Comparable<T>> Stack<T> of(T... elements) {
+    public T[] toArray() {
+        if (top == null) {
+            return (T[]) new Object[0];
+        }
+        T[] array = (T[]) Array.newInstance(top.value.getClass(), size());
+        Node<T> node = top;
+        int i = size() - 1;
+        while (node != null) {
+            array[i--] = node.value;
+            node = node.next;
+        }
+        return array;
+    }
+
+    public static <T> Stack<T> of(T... elements) {
         Stack<T> stack = new Stack<>();
         for (T element : elements) {
             stack.push(element);
         }
         return stack;
+    }
+
+    public static <T extends Comparable<T>> void sort(Stack<T> stack) {
+        Stack<T> sorted = new Stack<>();
+        while (!stack.isEmpty()) {
+            T tmp = stack.pop();
+            while (!sorted.isEmpty() && sorted.peek().compareTo(tmp) > 0) {
+                stack.push(sorted.pop());
+            }
+            sorted.push(tmp);
+        }
+        stack.top = sorted.top;
+        stack.size = sorted.size;
     }
 }
