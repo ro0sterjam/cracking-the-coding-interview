@@ -1,8 +1,8 @@
-package test.java;
+package com.ro0sterjam.ctci;
 
 import org.junit.Test;
 
-import static main.java.Strings.*;
+import static com.ro0sterjam.ctci.Strings.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 

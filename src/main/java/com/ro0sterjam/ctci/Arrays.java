@@ -1,4 +1,4 @@
-package main.java;
+package com.ro0sterjam.ctci;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;

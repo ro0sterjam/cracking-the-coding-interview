@@ -1,9 +1,8 @@
-package test.java;
+package com.ro0sterjam.ctci;
 
-import main.java.TowersOfHanoi;
 import org.junit.Test;
 
-import static main.java.TowersOfHanoi.solve;
+import static com.ro0sterjam.ctci.TowersOfHanoi.solve;
 import static org.junit.Assert.assertTrue;
 
 /**

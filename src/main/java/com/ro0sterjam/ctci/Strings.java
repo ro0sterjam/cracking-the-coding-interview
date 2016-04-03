@@ -1,6 +1,6 @@
-package main.java;
+package com.ro0sterjam.ctci;
 
-import static main.java.Arrays.resizeArray;
+import static com.ro0sterjam.ctci.Arrays.resizeArray;
 
 /**
  * Created by kenwang on 2016-04-02.

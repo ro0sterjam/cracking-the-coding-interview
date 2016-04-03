@@ -1,15 +1,12 @@
-package test.java;
+package com.ro0sterjam.ctci;
 
-import main.java.LinkedList;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static main.java.LinkedList.partition;
-import static main.java.LinkedList.reverseSum;
-import static main.java.LinkedList.sum;
+import static com.ro0sterjam.ctci.LinkedList.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 

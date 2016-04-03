@@ -1,6 +1,5 @@
-package test.java;
+package com.ro0sterjam.ctci;
 
-import main.java.RolloverStack;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

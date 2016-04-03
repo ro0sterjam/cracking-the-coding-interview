@@ -1,6 +1,5 @@
-package test.java;
+package com.ro0sterjam.ctci;
 
-import main.java.MinTrackingStack;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.nullValue;

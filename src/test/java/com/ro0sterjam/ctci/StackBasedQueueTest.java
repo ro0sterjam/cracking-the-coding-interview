@@ -1,6 +1,5 @@
-package test.java;
+package com.ro0sterjam.ctci;
 
-import main.java.StackBasedQueue;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
