@@ -6,18 +6,18 @@ import java.util.List;
 /**
  * Created by kenwang on 2016-04-02.
  */
-public class SetOfStacks<T> {
+public class RolloverStack<T> {
 
     private static final int DEFAULT_CAPACITY = 5;
 
     private List<Stack<T>> stacks = new ArrayList<>();
     private final int capacity;
 
-    public SetOfStacks(int capacity) {
+    public RolloverStack(int capacity) {
         this.capacity = capacity;
     }
 
-    public SetOfStacks() {
+    public RolloverStack() {
         this(DEFAULT_CAPACITY);
     }
 

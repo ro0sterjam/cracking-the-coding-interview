@@ -3,16 +3,28 @@ package main.java;
 /**
  * Created by kenwang on 2016-04-02.
  */
-class Node<T> {
+public class Node<T> {
 
-    T value;
-    Node<T> next;
+    public T value;
+    public Node<T> next;
 
     public Node(T value) {
         this.value = value;
     }
 
-    public Node<T> findStartOfLoop() {
+    public T getValue() {
+        return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+
+    public void setNext(Node<T> next) {
+        this.next = next;
+    }
+
+    public Node<T> startOfLoop() {
         if (next == null || next.next == null) {
             return null;
         }

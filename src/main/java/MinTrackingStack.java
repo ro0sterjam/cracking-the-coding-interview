@@ -3,7 +3,7 @@ package main.java;
 /**
  * Created by kenwang on 2016-04-02.
  */
-public class StackWithMin<T extends Comparable<T>> extends Stack<T> {
+public class MinTrackingStack<T extends Comparable<T>> extends Stack<T> {
 
     private final Stack<T> minStack = new Stack<>();
 
@@ -28,8 +28,8 @@ public class StackWithMin<T extends Comparable<T>> extends Stack<T> {
         return minStack.peek();
     }
 
-    public static <T extends Comparable<T>> StackWithMin<T> of(T... elements) {
-        StackWithMin<T> stack = new StackWithMin<>();
+    public static <T extends Comparable<T>> MinTrackingStack<T> of(T... elements) {
+        MinTrackingStack<T> stack = new MinTrackingStack<>();
         for (T element : elements) {
             stack.push(element);
         }
