@@ -54,7 +54,7 @@ public class Strings {
         return (s1 + s1).contains(s2);
     }
 
-    private static char[] toPrimitiveArray(Character[] chars) {
+    public static char[] toPrimitiveArray(Character[] chars) {
         char[] newChars = new char[chars.length];
         for (int i = 0; i < chars.length; i++) {
             newChars[i] = chars[i] != null? chars[i] : ' ';
@@ -62,7 +62,7 @@ public class Strings {
         return newChars;
     }
 
-    private static Character[] toObjectArray(char[] chars) {
+    public static Character[] toObjectArray(char[] chars) {
         Character[] newChars = new Character[chars.length];
         for (int i = 0; i < chars.length; i++) {
             newChars[i] = chars[i];

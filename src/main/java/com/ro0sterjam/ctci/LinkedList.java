@@ -85,6 +85,18 @@ public class LinkedList<T> {
         return node.value;
     }
 
+    public void add(T value) {
+        if (head == null) {
+            head = new SinglyLinkedNode<>(value);
+        } else {
+            SinglyLinkedNode<T> node = head;
+            while (node.next != null) {
+                node = node.next;
+            }
+            node.next = new SinglyLinkedNode<>(value);
+        }
+    }
+
     public boolean isPalindrome() {
         LinkedList<T> reversed = reverse();
         SinglyLinkedNode<T> node1 = head;

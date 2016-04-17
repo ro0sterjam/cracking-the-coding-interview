@@ -1,10 +1,7 @@
 package com.ro0sterjam.ctci;
 
 import java.lang.reflect.Array;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by kenwang on 2016-03-13.
@@ -111,4 +108,78 @@ public class Arrays {
         a[i] = a[j];
         a[j] = temp;
     }
+
+    public static <T extends Comparable<T>> void quicksort(T[] a) {
+        quicksort(a, 0, a.length - 1);
+    }
+
+    public static <T extends Comparable<T>> T quickselect(T[] a, int k) {
+        if (k < 1 || k > a.length) {
+            throw new IllegalArgumentException("k must be between 1 and a.length (inclusive)");
+        }
+        return quickselect(a, 0, a.length - 1, k);
+    }
+
+    public static <T extends Comparable<T>> Set<T> quickselectArray(T[] a, int k) {
+        if (k < 1 || k > a.length) {
+            throw new IllegalArgumentException("k must be between 1 and a.length (inclusive)");
+        }
+        quickselect(a, 0, a.length - 1, k);
+        Set<T> results = new HashSet<>();
+        for (k--; k >= 0; k--) {
+            results.add(a[k]);
+        }
+        return results;
+    }
+
+    public static <T> Set<T> asSet(T[] a) {
+        Set<T> set = new HashSet<>();
+        for (T element : a) {
+            set.add(element);
+        }
+        return set;
+    }
+
+    private static <T extends Comparable<T>> T quickselect(T[] a, int i, int j, int k) {
+        int pivot = partition(a, i, j);
+        if (pivot == k - 1) {
+            return a[pivot];
+        } else if (pivot > k - 1) {
+            return quickselect(a, i, pivot - 1, k);
+        } else {
+            return quickselect(a, pivot + 1, j, k);
+        }
+    }
+
+    private static <T extends Comparable<T>> void quicksort(T[] a, int i, int j) {
+        if (i >= j) {
+            return;
+        }
+        int pivot = partition(a, i, j);
+        quicksort(a, i, pivot - 1);
+        quicksort(a, pivot + 1, j);
+    }
+
+    private static <T extends Comparable<T>> int partition(T[] a, int i, int j) {
+        T pivot = a[(int) Math.random() * (j - i + 1) + i];
+        while (i < j) {
+            while (a[i].compareTo(pivot) < 0) {
+                i++;
+            }
+            while (a[j].compareTo(pivot) > 0) {
+                j--;
+            }
+            if (i < j) {
+                if (a[i] == a[j]) {
+                    i++;
+                } else {
+                    T tmp = a[i];
+                    a[i] = a[j];
+                    a[j] = tmp;
+                }
+            }
+        }
+        return i;
+    }
+
 }
