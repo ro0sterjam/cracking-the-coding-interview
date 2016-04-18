@@ -37,7 +37,7 @@ public class StringTrieTest {
         trie.add("hello");
         assertFalse(trie.contains("hell"));
     }
-u
+
     @Test
     public void testAdd_substrings() {
         StringTrie trie = new StringTrie();

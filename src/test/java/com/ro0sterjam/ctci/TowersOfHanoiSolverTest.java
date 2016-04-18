@@ -2,13 +2,13 @@ package com.ro0sterjam.ctci;
 
 import org.junit.Test;
 
-import static com.ro0sterjam.ctci.TowersOfHanoi.solve;
+import static com.ro0sterjam.ctci.TowersOfHanoiSolver.solve;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Created by kenwang on 2016-04-02.
  */
-public class TowersOfHanoiTest {
+public class TowersOfHanoiSolverTest {
 
     @Test
     public void testSolve_emptyTower() {

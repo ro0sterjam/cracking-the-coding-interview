@@ -22,8 +22,11 @@ public class TowersOfHanoi {
     }
 
     public void move(int from, int to) {
-
         move(getTower(from), getTower(to));
+    }
+
+    public int getNumDisks(int tower) {
+        return getTower(tower).size();
     }
 
     public boolean isSolved() {
@@ -51,18 +54,6 @@ public class TowersOfHanoi {
 
     public static class InvalidMoveException extends RuntimeException {
 
-    }
-
-    public static void solve(TowersOfHanoi game) {
-        move(game, game.left, game.right, game.mid, game.left.size());
-    }
-
-    private static void move(TowersOfHanoi game, Stack<Integer> from, Stack<Integer> to, Stack<Integer> tmp, int numDisks) {
-        if (numDisks > 0) {
-            move(game, from, tmp, to, numDisks - 1);
-            game.move(from, to);
-            move(game, tmp, to, from, numDisks - 1);
-        }
     }
 
 }
