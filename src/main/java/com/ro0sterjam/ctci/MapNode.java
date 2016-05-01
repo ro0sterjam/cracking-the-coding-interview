@@ -6,9 +6,13 @@ import java.util.Map;
 /**
  * Created by kenwang on 2016-04-17.
  */
-public class TrieNode<T> {
+public class MapNode<T> {
 
-    Map<T, TrieNode> children = new HashMap<>();
+    private Map<T, MapNode> children = new HashMap<>();
+
+    public Map<T, MapNode> getChildren() {
+        return children;
+    }
 
     void add(T[] array, int i) {
         if (i == array.length) {
@@ -17,7 +21,7 @@ public class TrieNode<T> {
         }
         T element = array[i];
         if (!children.containsKey(array[i])) {
-            children.put(array[i], new TrieNode());
+            children.put(array[i], new MapNode());
         }
         children.get(array[i]).add(array, i + 1);
     }

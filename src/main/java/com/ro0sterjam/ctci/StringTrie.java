@@ -5,7 +5,7 @@ package com.ro0sterjam.ctci;
  */
 public class StringTrie {
 
-    TrieNode<Character> root = new TrieNode<>();
+    MapNode<Character> root = new MapNode<>();
 
     public void add(String string) {
         root.add(Strings.toObjectArray(string.toCharArray()), 0);

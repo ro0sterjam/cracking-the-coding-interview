@@ -28,17 +28,17 @@ public class BoggleSolver {
         return found;
     }
 
-    private void solve(Boggle boggle, TrieNode<Character> node, Coordinates coordinates, Set<Coordinates> searched, Set<String> found, String prefix) {
+    private void solve(Boggle boggle, MapNode<Character> node, Coordinates coordinates, Set<Coordinates> searched, Set<String> found, String prefix) {
         searched.add(coordinates);
-        if (node.children.containsKey(null) && prefix.length() > 2) {
+        if (node.getChildren().containsKey(null) && prefix.length() > 2) {
             found.add(prefix);
         }
         for (Coordinates adjacent : boggle.getAdjacent(coordinates)) {
             char c = boggle.getLetter(adjacent);
-            if (searched.contains(adjacent) || !node.children.containsKey(c)) {
+            if (searched.contains(adjacent) || !node.getChildren().containsKey(c)) {
                 continue;
             }
-            solve(boggle, node.children.get(c), adjacent, new HashSet<>(searched), found, prefix + c);
+            solve(boggle, node.getChildren().get(c), adjacent, new HashSet<>(searched), found, prefix + c);
         }
     }
 
@@ -51,14 +51,6 @@ public class BoggleSolver {
             }
         }
         return dictionary;
-    }
-
-    public static void main(String[] args) throws IOException {
-        Boggle boggle = new Boggle();
-        boggle.printBoard();
-        System.out.println("------------------");
-        BoggleSolver boggleSolver = new BoggleSolver();
-        boggleSolver.solve(boggle).forEach(System.out::println);
     }
 
 }

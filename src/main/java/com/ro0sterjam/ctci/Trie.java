@@ -5,7 +5,7 @@ package com.ro0sterjam.ctci;
  */
 public class Trie<T> {
 
-    private TrieNode<T> root = new TrieNode<>();
+    private MapNode<T> root = new MapNode<>();
 
     public void add(T[] array) {
         root.add(array, 0);
