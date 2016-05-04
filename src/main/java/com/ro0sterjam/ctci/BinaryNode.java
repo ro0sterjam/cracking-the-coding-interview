@@ -163,18 +163,35 @@ public class BinaryNode<T> {
         return (root.left == null || root.left.value.compareTo(root.value) <= 0 && isOrdered(root.left)) && (root.right == null || root.right.value.compareTo(root.value) >= 0 && isOrdered(root.right));
     }
 
-    public static <T> BinaryNode<T> fromArray(T[] array) {
-        return fromArray(array, 0, array.length);
+    public static <T> BinaryNode<T> fromArrayInOrder(T[] array) {
+        return fromArrayInOrder(array, 0, array.length);
     }
 
-    public static <T> BinaryNode<T> fromArray(T[] array, int i, int j) {
+    public static <T> BinaryNode<T> fromArrayLevelOrder(T[] array) {
+        return fromArrayLevelOrder(array, 0);
+    }
+
+    private static <T> BinaryNode<T> fromArrayLevelOrder(T[] array, int i) {
+        if (i >= array.length || array[i] == null) {
+            return null;
+        }
+        BinaryNode<T> node = new BinaryNode<>(array[i]);
+        node.setLeft(fromArrayLevelOrder(array, i * 2 + 1));
+        node.setRight(fromArrayLevelOrder(array, i * 2 + 2));
+        return node;
+    }
+
+    private static <T> BinaryNode<T> fromArrayInOrder(T[] array, int i, int j) {
         if (i == j) {
             return null;
         } else {
             int mid = (i + j) / 2;
+            if (array[mid] == null) {
+                return null;
+            }
             BinaryNode<T> node = new BinaryNode<>(array[mid]);
-            node.setLeft(fromArray(array, i, mid));
-            node.setRight(fromArray(array, mid + 1, j));
+            node.setLeft(fromArrayInOrder(array, i, mid));
+            node.setRight(fromArrayInOrder(array, mid + 1, j));
             return node;
         }
     }

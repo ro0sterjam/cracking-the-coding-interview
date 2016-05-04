@@ -4,8 +4,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static com.ro0sterjam.ctci.BinaryNode.firstCommonAncestor;
-import static com.ro0sterjam.ctci.BinaryNode.isOrdered;
+import static com.ro0sterjam.ctci.BinaryNode.*;
 import static org.junit.Assert.*;
 
 /**
@@ -94,57 +93,110 @@ public class BinaryNodeTest {
     }
 
     @Test
-    public void testFromArray_emptyArray() {
+    public void testFromArrayInOrder_emptyArray() {
         Integer[] array = new Integer[0];
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(null, root);
     }
 
     @Test
-    public void testFromArray_singleElement() {
+    public void testFromArrayInOrder_singleElement() {
         Integer[] array = new Integer[]{ 5 };
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(0, root.height());
     }
 
     @Test
-    public void testFromArray_twoElements() {
+    public void testFromArrayInOrder_twoElements() {
         Integer[] array = new Integer[]{ 5, 7 };
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(1, root.height());
         assertTrue(isOrdered(root));
     }
 
     @Test
-    public void testFromArray_threeElements() {
+    public void testFromArrayInOrder_threeElements() {
         Integer[] array = new Integer[]{ 5, 7, 9 };
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(1, root.height());
         assertTrue(isOrdered(root));
     }
 
     @Test
-    public void testFromArray_fourElements() {
+    public void testFromArrayInOrder_fourElements() {
         Integer[] array = new Integer[]{ 5, 7, 9, 10 };
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(2, root.height());
         assertTrue(isOrdered(root));
     }
 
     @Test
-    public void testFromArray_sevenElements() {
+    public void testFromArrayInOrder_sevenElements() {
         Integer[] array = new Integer[]{ 5, 7, 9, 10, 17, 19, 22 };
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(2, root.height());
         assertTrue(isOrdered(root));
     }
 
     @Test
-    public void testFromArray_eightElements() {
+    public void testFromArrayInOrder_eightElements() {
         Integer[] array = new Integer[]{ 5, 7, 9, 10, 17, 19, 22, 24 };
-        BinaryNode<Integer> root = BinaryNode.fromArray(array);
+        BinaryNode<Integer> root = BinaryNode.fromArrayInOrder(array);
         assertEquals(3, root.height());
         assertTrue(isOrdered(root));
+    }
+
+    @Test
+    public void testFromArrayLevelOrder_emptyArray() {
+        Integer[] array = new Integer[0];
+        assertEquals(null, fromArrayLevelOrder(array));
+    }
+
+    @Test
+    public void testFromArrayLevelOrder_singleElement() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(new Integer[]{ 4 });
+        assertEquals((Integer) 4, node.getValue());
+        assertEquals(null, node.getLeft());
+        assertEquals(null, node.getRight());
+    }
+
+    @Test
+    public void testFromArrayLevelOrder_twoElements() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(new Integer[]{ 4, 7 });
+        assertEquals((Integer) 4, node.getValue());
+        assertEquals((Integer) 7, node.getLeft().getValue());
+        assertEquals(null, node.getRight());
+    }
+
+    @Test
+    public void testFromArrayLevelOrder_threeElements() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(new Integer[]{ 4, 7, 8 });
+        assertEquals((Integer) 4, node.getValue());
+        assertEquals((Integer) 7, node.getLeft().getValue());
+        assertEquals((Integer) 8, node.getRight().getValue());
+    }
+
+    @Test
+    public void testFromArrayLevelOrder_sixElements() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(new Integer[]{ 4, 7, 8, 10, 3, 7 });
+        assertEquals((Integer) 4, node.getValue());
+        assertEquals((Integer) 7, node.getLeft().getValue());
+        assertEquals((Integer) 8, node.getRight().getValue());
+        assertEquals((Integer) 10, node.getLeft().getLeft().getValue());
+        assertEquals((Integer) 3, node.getLeft().getRight().getValue());
+        assertEquals((Integer) 7, node.getRight().getLeft().getValue());
+    }
+
+    @Test
+    public void testFromArrayLevelOrder_nullElements() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(new Integer[]{ 4, null, 8, null, null, 10, 3, null, null, null, null, null, 7 });
+        assertEquals((Integer) 4, node.getValue());
+        assertEquals(null, node.getLeft());
+        assertEquals((Integer) 8, node.getRight().getValue());
+        assertEquals((Integer) 10, node.getRight().getLeft().getValue());
+        assertEquals((Integer) 3, node.getRight().getRight().getValue());
+        assertEquals(null, node.getRight().getLeft().getLeft());
+        assertEquals((Integer) 7, node.getRight().getLeft().getRight().getValue());
     }
 
     @Test
@@ -450,9 +502,40 @@ public class BinaryNodeTest {
         assertFalse(node.contains(otherNode));
     }
 
-    @Test // TODO: SUBTREES
-    public void testContains() {
+    @Test
+    public void testContains_subtreeSingleNode() {
+        BinaryNode<Integer> tree = fromArrayLevelOrder(new Integer[]{ 4, 6, 3 });
+        assertTrue(tree.contains(fromArrayLevelOrder(new Integer[]{ 3 })));
+    }
 
+    @Test
+    public void testContains_subtreeFull() {
+        BinaryNode<Integer> tree = fromArrayLevelOrder(new Integer[]{ 4, 6, 3, 4, 8 });
+        assertTrue(tree.contains(fromArrayLevelOrder(new Integer[]{ 6, 4, 8 })));
+    }
+
+    @Test
+    public void testContains_subtreeLarger() {
+        BinaryNode<Integer> tree = fromArrayLevelOrder(new Integer[]{ 4, 6, 3 });
+        assertFalse(tree.contains(fromArrayLevelOrder(new Integer[]{ 3, 7 })));
+    }
+
+    @Test
+    public void testContains_subtreeSmaller() {
+        BinaryNode<Integer> tree = fromArrayLevelOrder(new Integer[]{ 4, 6, 3, null, null, 7 });
+        assertFalse(tree.contains(fromArrayLevelOrder(new Integer[]{ 3 })));
+    }
+
+    @Test
+    public void testContains_subtreeContained() {
+        BinaryNode<Integer> tree = fromArrayLevelOrder(new Integer[]{ 4, 6, 3, null, null, 7 });
+        assertTrue(tree.contains(fromArrayLevelOrder(new Integer[]{ 3, 7 })));
+    }
+
+    @Test
+    public void testContains_manySameRoots() {
+        BinaryNode<Integer> tree = fromArrayLevelOrder(new Integer[]{ 4, 3, 3, null, null, 7, 3, null, null, null, null, 3, 8, 7, null, null, null, null, null, null, null, null, null, 7, 3, null, 3, null, 9 });
+        assertTrue(tree.contains(fromArrayLevelOrder(new Integer[]{ 3, 7, null, null, 9 })));
     }
 
     @Test
