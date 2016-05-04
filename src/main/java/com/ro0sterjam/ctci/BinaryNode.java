@@ -97,10 +97,18 @@ public class BinaryNode<T> {
     }
 
     public boolean contains(BinaryNode<T> node) {
-        if (this == node) {
-            return true;
+        return equals(node) || left != null && left.contains(node) || right != null && right.contains(node);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BinaryNode<?> that = (BinaryNode<?>) o;
+        if (!value.equals(that.getValue()) || left == null && that.left != null || right == null && that.right != null) {
+            return false;
         }
-        return left != null && left.contains(node) || right != null && right.contains(node);
+        return (left == null || left.equals(that.left)) && (right == null || right.equals(that.right));
     }
 
     public static <T> BinaryNode<T> firstCommonAncestor(BinaryNode<T> node1, BinaryNode<T> node2) {

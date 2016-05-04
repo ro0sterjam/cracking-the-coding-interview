@@ -450,4 +450,155 @@ public class BinaryNodeTest {
         assertFalse(node.contains(otherNode));
     }
 
+    @Test // TODO: SUBTREES
+    public void testContains() {
+
+    }
+
+    @Test
+    public void testEquals_singleNodeAndNull() {
+        BinaryNode<Integer> node = new BinaryNode<>(7);
+        assertFalse(node.equals(null));
+    }
+
+    @Test
+    public void testEquals_singleNodeSameInstance() {
+        BinaryNode<Integer> node = new BinaryNode<>(8);
+        assertTrue(node.equals(node));
+    }
+
+    @Test
+    public void testEquals_singleNodeSameValue() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(8);
+        BinaryNode<Integer> node2 = new BinaryNode<>(8);
+        assertTrue(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_leftChildEquals() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setLeft(new BinaryNode<>(9));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setLeft(new BinaryNode<>(9));
+        assertTrue(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_leftChildNotEquals() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setLeft(new BinaryNode<>(9));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setLeft(new BinaryNode<>(10));
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_rightChildEquals() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setRight(new BinaryNode<>(9));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setRight(new BinaryNode<>(9));
+        assertTrue(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_rightChildNotEquals() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setRight(new BinaryNode<>(9));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setRight(new BinaryNode<>(10));
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_extraRightChild() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setLeft(new BinaryNode<>(9));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setLeft(new BinaryNode<>(9));
+        node2.setRight(new BinaryNode<>(10));
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_otherExtraRightChild() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setLeft(new BinaryNode<>(9));
+        node1.setRight(new BinaryNode<>(10));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setLeft(new BinaryNode<>(9));
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_extraLeftChild() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setRight(new BinaryNode<>(9));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setRight(new BinaryNode<>(9));
+        node2.setLeft(new BinaryNode<>(10));
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_otherExtraLeftChild() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setRight(new BinaryNode<>(9));
+        node1.setLeft(new BinaryNode<>(10));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setRight(new BinaryNode<>(9));
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_bothLeftAndRightEquals() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        node1.setRight(new BinaryNode<>(9));
+        node1.setLeft(new BinaryNode<>(10));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setRight(new BinaryNode<>(9));
+        node2.setLeft(new BinaryNode<>(10));
+        assertTrue(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_twoLevelsEqual() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        BinaryNode<Integer> node1Left = new BinaryNode<>(10);
+        node1Left.setRight(new BinaryNode<>(3));
+        node1.setRight(new BinaryNode<>(9));
+        node1.setLeft(node1Left);
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        BinaryNode<Integer> node2Left = new BinaryNode<>(10);
+        node2Left.setRight(new BinaryNode<>(3));
+        node2.setRight(new BinaryNode<>(9));
+        node2.setLeft(node2Left);
+        assertTrue(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_twoLevelsNotEqual() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(6);
+        BinaryNode<Integer> node1Left = new BinaryNode<>(10);
+        node1Left.setRight(new BinaryNode<>(6));
+        node1.setRight(new BinaryNode<>(9));
+        node1.setLeft(node1Left);
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        BinaryNode<Integer> node2Left = new BinaryNode<>(10);
+        node2Left.setRight(new BinaryNode<>(3));
+        node2.setRight(new BinaryNode<>(9));
+        node2.setLeft(node2Left);
+        assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testEquals_earlyFail() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(3);
+        node1.setRight(new BinaryNode<>(9));
+        node1.setLeft(new BinaryNode<>(10));
+        BinaryNode<Integer> node2 = new BinaryNode<>(6);
+        node2.setRight(new BinaryNode<>(9));
+        node2.setLeft(new BinaryNode<>(10));
+        assertFalse(node1.equals(node2));
+    }
 }
