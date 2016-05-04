@@ -8,12 +8,40 @@ import java.util.List;
  */
 public class BinaryNode<T> {
 
-    public T value;
-    public BinaryNode<T> left;
-    public BinaryNode<T> right;
+    private T value;
+
+    private BinaryNode<T> parent;
+    private BinaryNode<T> left;
+    private BinaryNode<T> right;
 
     public BinaryNode(T value) {
         this.value = value;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
+    public BinaryNode<T> getLeft() {
+        return left;
+    }
+
+    public void setLeft(BinaryNode<T> node) {
+        left = node;
+        if (node != null) {
+            node.parent = this;
+        }
+    }
+
+    public BinaryNode<T> getRight() {
+        return right;
+    }
+
+    public void setRight(BinaryNode<T> node) {
+        right = node;
+        if (node != null) {
+            node.parent = this;
+        }
     }
 
     public int height() {
@@ -24,14 +52,74 @@ public class BinaryNode<T> {
         }
     }
 
+    public int depth() {
+        int depth = 0;
+        BinaryNode<T> node = this;
+        while (node.parent != null) {
+            depth++;
+            node = node.parent;
+        }
+        return depth;
+    }
+
     public boolean isBalanced() {
         return balancedHeight() != -1;
+    }
+
+    public BinaryNode<T> first() {
+        BinaryNode<T> first = this;
+        while (first.left != null) {
+            first = first.left;
+        }
+        return first;
+    }
+
+    public BinaryNode<T> next() {
+        if (right != null) {
+            return right.first();
+        } else {
+            BinaryNode<T> next = this;
+            while (next.parent != null && next.parent.right == next) {
+                next = next.parent;
+            }
+            if (next.parent != null) {
+                return next.parent;
+            } else {
+                return null;
+            }
+        }
     }
 
     public List<LinkedList<T>> toLists() {
         List<LinkedList<T>> lists = new ArrayList<>();
         populateLists(this, lists, 0);
         return lists;
+    }
+
+    public static <T> BinaryNode<T> firstCommonAncestor(BinaryNode<T> node1, BinaryNode<T> node2) {
+        int depth1 = node1.depth();
+        int depth2 = node2.depth();
+        int depthDiff = depth1 - depth2;
+        if (depthDiff > 0) {
+            while (depthDiff-- > 0) {
+                node1 = node1.parent;
+            }
+        } else if (depthDiff < 0) {
+            while (depthDiff++ < 0) {
+                node2 = node2.parent;
+            }
+        }
+        if (node1 == node2) {
+            return node1;
+        }
+        while (node1.parent != null && node2.parent != null) {
+            if (node1.parent == node2.parent) {
+                return node1.parent;
+            }
+            node1 = node1.parent;
+            node2 = node2.parent;
+        }
+        return null;
     }
 
     private static <T> void populateLists(BinaryNode<T> node, List<LinkedList<T>> lists, int depth) {
@@ -70,8 +158,8 @@ public class BinaryNode<T> {
         } else {
             int mid = (i + j) / 2;
             BinaryNode<T> node = new BinaryNode<>(array[mid]);
-            node.left = fromArray(array, i, mid);
-            node.right = fromArray(array, mid + 1, j);
+            node.setLeft(fromArray(array, i, mid));
+            node.setRight(fromArray(array, mid + 1, j));
             return node;
         }
     }

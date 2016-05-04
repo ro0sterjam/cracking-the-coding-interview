@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static com.ro0sterjam.ctci.BinaryNode.firstCommonAncestor;
 import static com.ro0sterjam.ctci.BinaryNode.isOrdered;
 import static org.junit.Assert.*;
 
@@ -21,74 +22,74 @@ public class BinaryNodeTest {
     @Test
     public void testIsBalanced_singleLeftNode() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(4);
+        root.setLeft(new BinaryNode<>(4));
         assertTrue(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_twoLeftNodes() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(4);
-        root.left.left = new BinaryNode<>(5);
+        root.setLeft(new BinaryNode<>(4));
+        root.getLeft().setLeft(new BinaryNode<>(5));
         assertFalse(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_leftRightNodes() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(4);
-        root.left.right = new BinaryNode<>(5);
+        root.setLeft(new BinaryNode<>(4));
+        root.getLeft().setRight(new BinaryNode<>(5));
         assertFalse(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_singleRightNode() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.right = new BinaryNode<>(4);
+        root.setRight(new BinaryNode<>(4));
         assertTrue(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_twoRightNodes() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.right = new BinaryNode<>(4);
-        root.right.right = new BinaryNode<>(5);
+        root.setRight(new BinaryNode<>(4));
+        root.getRight().setRight(new BinaryNode<>(5));
         assertFalse(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_rightLeftNodes() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.right = new BinaryNode<>(4);
-        root.right.left = new BinaryNode<>(5);
+        root.setRight(new BinaryNode<>(4));
+        root.getRight().setLeft(new BinaryNode<>(5));
         assertFalse(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_singleLeftAndRight() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(4);
-        root.right = new BinaryNode<>(9);
+        root.setLeft(new BinaryNode<>(4));
+        root.setRight(new BinaryNode<>(9));
         assertTrue(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_singleLeftAndTwoRight() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(4);
-        root.right = new BinaryNode<>(9);
-        root.right.right = new BinaryNode<>(11);
+        root.setLeft(new BinaryNode<>(4));
+        root.setRight(new BinaryNode<>(9));
+        root.getRight().setRight(new BinaryNode<>(11));
         assertTrue(root.isBalanced());
     }
 
     @Test
     public void testIsBalanced_unbalancedSubtree() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(4);
-        root.left.left = new BinaryNode<>(9);
-        root.left.left.left = new BinaryNode<>(4);
-        root.right = new BinaryNode<>(12);
-        root.right.right = new BinaryNode<>(11);
+        root.setLeft(new BinaryNode<>(4));
+        root.getLeft().setLeft(new BinaryNode<>(9));
+        root.getLeft().getLeft().setLeft(new BinaryNode<>(4));
+        root.setRight(new BinaryNode<>(12));
+        root.getRight().setRight(new BinaryNode<>(11));
         assertFalse(root.isBalanced());
     }
 
@@ -158,8 +159,8 @@ public class BinaryNodeTest {
     @Test
     public void testToList_threeElementsTwoLevels() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(7);
-        root.right = new BinaryNode<>(8);
+        root.setLeft(new BinaryNode<>(7));
+        root.setRight(new BinaryNode<>(8));
         List<LinkedList<Integer>> lists = root.toLists();
         assertEquals(2, lists.size());
         assertEquals(1, lists.get(0).size());
@@ -172,10 +173,10 @@ public class BinaryNodeTest {
     @Test
     public void testToList_multipleUnevenLevels() {
         BinaryNode<Integer> root = new BinaryNode<>(6);
-        root.left = new BinaryNode<>(7);
-        root.left.left = new BinaryNode<>(11);
-        root.right = new BinaryNode<>(8);
-        root.right.right = new BinaryNode<>(99);
+        root.setLeft(new BinaryNode<>(7));
+        root.getLeft().setLeft(new BinaryNode<>(11));
+        root.setRight(new BinaryNode<>(8));
+        root.getRight().setRight(new BinaryNode<>(99));
         List<LinkedList<Integer>> lists = root.toLists();
         assertEquals(3, lists.size());
         assertEquals(1, lists.get(0).size());
@@ -187,4 +188,169 @@ public class BinaryNodeTest {
         assertEquals((Integer) 11, lists.get(2).get(0));
         assertEquals((Integer) 99, lists.get(2).get(1));
     }
+
+    @Test
+    public void testNext_singleNode() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        assertEquals(null, root.next());
+    }
+
+    @Test
+    public void testNext_leftChild() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        root.setLeft(left);
+        assertEquals(null, root.next());
+    }
+
+    @Test
+    public void testNext_rightChild() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(7);
+        root.setRight(right);
+        assertEquals(right, root.next());
+    }
+
+    @Test
+    public void testNext_leftChildAndRightChild() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        BinaryNode<Integer> right = new BinaryNode<>(7);
+        root.setLeft(left);
+        root.setRight(right);
+        assertEquals(right, root.next());
+    }
+
+    @Test
+    public void testNext_rightChildAndRightParent() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(7);
+        BinaryNode<Integer> rightParent = new BinaryNode<>(8);
+        root.setRight(right);
+        rightParent.setLeft(root);
+        assertEquals(right, root.next());
+    }
+
+    @Test
+    public void testNext_rightParent() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> rightParent = new BinaryNode<>(8);
+        rightParent.setLeft(root);
+        assertEquals(rightParent, root.next());
+    }
+
+    @Test
+    public void testNext_rightParentAndRightGrandparent() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> rightParent = new BinaryNode<>(8);
+        BinaryNode<Integer> rightGrandParent = new BinaryNode<>(10);
+        rightParent.setLeft(root);
+        rightGrandParent.setLeft(rightParent);
+        assertEquals(rightParent, root.next());
+    }
+
+    @Test
+    public void testNext_rightParentAndLeftGrandparent() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> rightParent = new BinaryNode<>(8);
+        BinaryNode<Integer> leftGrandParent = new BinaryNode<>(7);
+        rightParent.setLeft(root);
+        leftGrandParent.setRight(rightParent);
+        assertEquals(rightParent, root.next());
+    }
+
+    @Test
+    public void testNext_leftParentAndLeftGrandparent() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> leftParent = new BinaryNode<>(3);
+        BinaryNode<Integer> leftGrandParent = new BinaryNode<>(1);
+        leftParent.setRight(root);
+        leftGrandParent.setRight(leftParent);
+        assertEquals(null, root.next());
+    }
+
+    @Test
+    public void testNext_leftParentAndRightGrandparent() {
+        BinaryNode<Integer> root = new BinaryNode<>(5);
+        BinaryNode<Integer> leftParent = new BinaryNode<>(3);
+        BinaryNode<Integer> rightGrandParent = new BinaryNode<>(7);
+        leftParent.setRight(root);
+        rightGrandParent.setLeft(leftParent);
+        assertEquals(rightGrandParent, root.next());
+    }
+
+    @Test
+    public void testFirstCommonAncestor_disjointedNodes() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        assertEquals(null, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testFirstCommonAncestor_disjointedTrees() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node1Parent = new BinaryNode<>(3);
+        node1Parent.setLeft(node1);
+        BinaryNode<Integer> node1Grandparent = new BinaryNode<>(3);
+        node1Grandparent.setLeft(node1Parent);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        BinaryNode<Integer> node2Parent = new BinaryNode<>(6);
+        node2Parent.setLeft(node2);
+        assertEquals(null, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testFirstCommonAncestor_parent() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        BinaryNode<Integer> parent = new BinaryNode<>(8);
+        parent.setLeft(node1);
+        parent.setRight(node2);
+        assertEquals(parent, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testFirstCommonAncestor_grandparent() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node1Parent = new BinaryNode<>(3);
+        node1Parent.setLeft(node1);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        BinaryNode<Integer> node2Parent = new BinaryNode<>(6);
+        node2Parent.setLeft(node2);
+        BinaryNode<Integer> grandparent = new BinaryNode<>(8);
+        grandparent.setLeft(node1Parent);
+        grandparent.setRight(node2Parent);
+        assertEquals(grandparent, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testFirstCommonAncestor_leftTaller() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node1Parent = new BinaryNode<>(3);
+        node1Parent.setLeft(node1);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        BinaryNode<Integer> grandparent = new BinaryNode<>(8);
+        grandparent.setLeft(node1Parent);
+        grandparent.setRight(node2);
+        assertEquals(grandparent, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testFirstCommonAncestor_rightTaller() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        BinaryNode<Integer> grandparent = new BinaryNode<>(8);
+        grandparent.setLeft(node1);
+        grandparent.setRight(node2);
+        assertEquals(grandparent, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testFirstCommonAncestor_root() {
+        BinaryNode<Integer> node1 = new BinaryNode<>(2);
+        BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        node1.setLeft(node2);
+        assertEquals(node1, firstCommonAncestor(node1, node2));
+    }
+
 }
