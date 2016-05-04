@@ -96,6 +96,13 @@ public class BinaryNode<T> {
         return lists;
     }
 
+    public boolean contains(BinaryNode<T> node) {
+        if (this == node) {
+            return true;
+        }
+        return left != null && left.contains(node) || right != null && right.contains(node);
+    }
+
     public static <T> BinaryNode<T> firstCommonAncestor(BinaryNode<T> node1, BinaryNode<T> node2) {
         int depth1 = node1.depth();
         int depth2 = node2.depth();

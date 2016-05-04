@@ -339,9 +339,11 @@ public class BinaryNodeTest {
     public void testFirstCommonAncestor_rightTaller() {
         BinaryNode<Integer> node1 = new BinaryNode<>(2);
         BinaryNode<Integer> node2 = new BinaryNode<>(5);
+        BinaryNode<Integer> node2Parent = new BinaryNode<>(3);
+        node2Parent.setLeft(node2);
         BinaryNode<Integer> grandparent = new BinaryNode<>(8);
-        grandparent.setLeft(node1);
-        grandparent.setRight(node2);
+        grandparent.setLeft(node2Parent);
+        grandparent.setRight(node1);
         assertEquals(grandparent, firstCommonAncestor(node1, node2));
     }
 
@@ -351,6 +353,101 @@ public class BinaryNodeTest {
         BinaryNode<Integer> node2 = new BinaryNode<>(5);
         node1.setLeft(node2);
         assertEquals(node1, firstCommonAncestor(node1, node2));
+    }
+
+    @Test
+    public void testContains_singleRootNotContains() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        assertFalse(node.contains(new BinaryNode<>(7)));
+    }
+
+    @Test
+    public void testContains_singleRootEquals() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        assertTrue(node.contains(node));
+    }
+
+    @Test
+    public void testContains_leftChild() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        node.setLeft(left);
+        assertTrue(node.contains(left));
+    }
+
+    @Test
+    public void testContains_rightChild() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(2);
+        node.setRight(right);
+        assertTrue(node.contains(right));
+    }
+
+    @Test
+    public void testContains_leftGrandchild() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        BinaryNode<Integer> grandLeft = new BinaryNode<>(2);
+        node.setLeft(left);
+        left.setLeft(grandLeft);
+        assertTrue(node.contains(grandLeft));
+    }
+
+    @Test
+    public void testContains_rightGrandchild() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(2);
+        BinaryNode<Integer> grandRight = new BinaryNode<>(2);
+        node.setRight(right);
+        right.setRight(grandRight);
+        assertTrue(node.contains(grandRight));
+    }
+
+    @Test
+    public void testContains_rootMultipleNodes() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(2);
+        BinaryNode<Integer> grandRight = new BinaryNode<>(2);
+        node.setRight(right);
+        right.setRight(grandRight);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        BinaryNode<Integer> grandLeft = new BinaryNode<>(2);
+        node.setLeft(left);
+        left.setLeft(grandLeft);
+        assertTrue(node.contains(node));
+    }
+
+    @Test
+    public void testContains_containsMultipleNodes() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(2);
+        BinaryNode<Integer> grandRightRight = new BinaryNode<>(2);
+        BinaryNode<Integer> grandRightLeft = new BinaryNode<>(2);
+        node.setRight(right);
+        right.setRight(grandRightRight);
+        right.setLeft(grandRightLeft);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        BinaryNode<Integer> grandLeftRight = new BinaryNode<>(2);
+        node.setLeft(left);
+        left.setRight(grandLeftRight);
+        assertTrue(node.contains(right));
+    }
+
+    @Test
+    public void testContains_notContainsMultipleNodes() {
+        BinaryNode<Integer> node = new BinaryNode<>(5);
+        BinaryNode<Integer> right = new BinaryNode<>(2);
+        BinaryNode<Integer> grandRightRight = new BinaryNode<>(2);
+        BinaryNode<Integer> grandRightLeft = new BinaryNode<>(2);
+        node.setRight(right);
+        right.setRight(grandRightRight);
+        right.setLeft(grandRightLeft);
+        BinaryNode<Integer> left = new BinaryNode<>(2);
+        BinaryNode<Integer> grandLeftRight = new BinaryNode<>(2);
+        node.setLeft(left);
+        left.setRight(grandLeftRight);
+        BinaryNode<Integer> otherNode = new BinaryNode<>(4);
+        assertFalse(node.contains(otherNode));
     }
 
 }
