@@ -2,7 +2,9 @@ package com.ro0sterjam.ctci;
 
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.ro0sterjam.ctci.BinaryNode.*;
 import static org.junit.Assert.*;
@@ -683,5 +685,110 @@ public class BinaryNodeTest {
         node2.setRight(new BinaryNode<>(9));
         node2.setLeft(new BinaryNode<>(10));
         assertFalse(node1.equals(node2));
+    }
+
+    @Test
+    public void testGetPathsWithSum_singleNodeNotEquals() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9);
+        assertTrue(getPathsWithSum(node, 8).isEmpty());
+    }
+
+    @Test
+    public void testGetPathsWithSum_singleNodeEquals() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("9,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 9));
+    }
+
+    @Test
+    public void testGetPathsWithSum_leftSumFullPath() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, -2);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("9,6,-2,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 13));
+    }
+
+    @Test
+    public void testGetPathsWithSum_rightSumFullPath() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, null, null, -2);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("9,7,-2,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 14));
+    }
+
+    @Test
+    public void testGetPathsWithSum_leftSumNoLeaf() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, -2);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("9,6,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 15));
+    }
+
+    @Test
+    public void testGetPathsWithSum_rightSumNoLeaf() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, null, null, -2);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("9,6,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 15));
+    }
+
+    @Test
+    public void testGetPathsWithSum_leftSumNoRoot() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, -2);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("6,-2,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 4));
+    }
+
+    @Test
+    public void testGetPathsWithSum_rightSumNoRoot() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, null, null, -2);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("7,-2,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 5));
+    }
+
+    @Test
+    public void testGetPathsWithSum_leftSumPartialPath() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, -2, null, null, null, null, 7);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("6,-2,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 4));
+    }
+
+    @Test
+    public void testGetPathsWithSum_rightSumPartialPath() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, null, null, -2, null, null, null, null, null, 4);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("7,-2,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 5));
+    }
+
+    @Test
+    public void testGetPathsWithSum_multiplePaths() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 8, 7, -3, null, -2, null, null, null, null, null, 4);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("7,-2,");
+        expectedPaths.add("8,-3,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 5));
+    }
+
+    @Test
+    public void testGetPathsWithSum_subpath() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, null, null, -2, null, null, null, null, null, 0);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("7,-2,");
+        expectedPaths.add("7,-2,0,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 5));
+    }
+
+    @Test
+    public void testGetPathsWithSum_overlap() {
+        BinaryNode<Integer> node = fromArrayLevelOrder(9, 6, 7, null, null, -2, null, null, null, null, null, 7);
+        Set<String> expectedPaths = new HashSet<>();
+        expectedPaths.add("7,-2,");
+        expectedPaths.add("-2,7,");
+        assertEquals(expectedPaths, getPathsWithSum(node, 5));
     }
 }

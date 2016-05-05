@@ -1,7 +1,9 @@
 package com.ro0sterjam.ctci;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by kenwang on 2016-04-03.
@@ -100,6 +102,33 @@ public class BinaryNode<T> {
         return equals(node) || left != null && left.contains(node) || right != null && right.contains(node);
     }
 
+    public static Set<String> getPathsWithSum(BinaryNode<Integer> node, int sum) {
+        Set<String> paths = new HashSet<>();
+        getPathsWithSum(node, new int[node.height() + 1], 0, sum, paths);
+        return paths;
+    }
+
+    private static void getPathsWithSum(BinaryNode<Integer> node, int[] path, int depth, int sum, Set<String> paths) {
+        if (node == null) {
+            return;
+        }
+        path[depth] = node.value;
+        int nodeSum = 0;
+        for (int i = depth; i >= 0; i--) {
+            nodeSum += path[i];
+            if (nodeSum == sum) {
+                StringBuilder sumPath = new StringBuilder();
+                for (int j = i; j <= depth; j++) {
+                    sumPath.append(path[j]);
+                    sumPath.append(",");
+                }
+                paths.add(sumPath.toString());
+            }
+        }
+        getPathsWithSum(node.left, path, depth + 1, sum, paths);
+        getPathsWithSum(node.right, path, depth + 1, sum, paths);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,6 +138,16 @@ public class BinaryNode<T> {
             return false;
         }
         return (left == null || left.equals(that.left)) && (right == null || right.equals(that.right));
+    }
+
+    private int balancedHeight() {
+        int leftHeight = left == null? -1 : left.balancedHeight();
+        int rightHeight = right == null? -1 : right.balancedHeight();
+        if (left != null && leftHeight == -1 || right != null && rightHeight == -1 || Math.abs(leftHeight - rightHeight) > 1) {
+            return -1;
+        } else {
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
     }
 
     public static <T> BinaryNode<T> firstCommonAncestor(BinaryNode<T> node1, BinaryNode<T> node2) {
@@ -149,16 +188,6 @@ public class BinaryNode<T> {
         populateLists(node.right, lists, depth + 1);
     }
 
-    private int balancedHeight() {
-        int leftHeight = left == null? -1 : left.balancedHeight();
-        int rightHeight = right == null? -1 : right.balancedHeight();
-        if (left != null && leftHeight == -1 || right != null && rightHeight == -1 || Math.abs(leftHeight - rightHeight) > 1) {
-            return -1;
-        } else {
-            return Math.max(leftHeight, rightHeight) + 1;
-        }
-    }
-
     public static <T extends Comparable<T>> boolean isOrdered(BinaryNode<T> root) {
         return (root.left == null || root.left.value.compareTo(root.value) <= 0 && isOrdered(root.left)) && (root.right == null || root.right.value.compareTo(root.value) >= 0 && isOrdered(root.right));
     }
@@ -167,7 +196,7 @@ public class BinaryNode<T> {
         return fromArrayInOrder(array, 0, array.length);
     }
 
-    public static <T> BinaryNode<T> fromArrayLevelOrder(T[] array) {
+    public static <T> BinaryNode<T> fromArrayLevelOrder(T... array) {
         return fromArrayLevelOrder(array, 0);
     }
 
