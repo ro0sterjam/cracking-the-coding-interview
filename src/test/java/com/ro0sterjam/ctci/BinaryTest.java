@@ -236,4 +236,9 @@ public class BinaryTest {
     public void testBitDiff_twoDifferences() {
         assertEquals(2, bitDiff(fromBinary("10101000111010"), fromBinary("10001001111010")));
     }
+
+    @Test
+    public void testSwapEvenAndOddBits() {
+        assertEquals(fromBinary("0101100001110110011011010001001"), swapEvenAndOddBits(fromBinary("0011100001101110011100101000110")));
+    }
 }

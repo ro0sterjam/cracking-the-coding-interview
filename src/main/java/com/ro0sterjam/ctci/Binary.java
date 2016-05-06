@@ -115,4 +115,8 @@ public class Binary {
         return count;
     }
 
+    public static int swapEvenAndOddBits(int n) {
+        return ((n & fromBinary("10101010101010101010101010101010")) >> 1) | ((n & fromBinary("1010101010101010101010101010101")) << 1);
+    }
+
 }
