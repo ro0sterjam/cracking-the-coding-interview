@@ -106,4 +106,13 @@ public class Binary {
     public static boolean isPowerOf2(int n) {
         return (n & (n - 1)) == 0;
     }
+
+    public static int bitDiff(int a, int b) {
+        int count = 0;
+        for (int i = a ^ b; i != 0; i &= i - 1) {
+            count++;
+        }
+        return count;
+    }
+
 }

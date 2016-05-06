@@ -222,4 +222,18 @@ public class BinaryTest {
         assertFalse(isPowerOf2(fromBinary("1000000000000010000000000000000")));
     }
 
+    @Test
+    public void testBitDiff_same() {
+        assertEquals(0, bitDiff(2434, 2434));
+    }
+
+    @Test
+    public void testBitDiff_singleDifference() {
+        assertEquals(1, bitDiff(fromBinary("10001000111010"), fromBinary("10001001111010")));
+    }
+
+    @Test
+    public void testBitDiff_twoDifferences() {
+        assertEquals(2, bitDiff(fromBinary("10101000111010"), fromBinary("10001001111010")));
+    }
 }
