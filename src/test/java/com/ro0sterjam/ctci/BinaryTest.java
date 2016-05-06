@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static com.ro0sterjam.ctci.Binary.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by kenwang on 2016-05-06.
@@ -160,6 +162,64 @@ public class BinaryTest {
         assertEquals(fromBinary("10011101110000"), prevWithSameParity(fromBinary("10011110000011")));
     }
 
+    @Test
+    public void testIsPowerOf2_zero() {
+        assertTrue(isPowerOf2(0));
+    }
 
+    @Test
+    public void testIsPowerOf2_one() {
+        assertTrue(isPowerOf2(1));
+    }
+
+    @Test
+    public void testIsPowerOf2_two() {
+        assertTrue(isPowerOf2(2));
+    }
+
+    @Test
+    public void testIsPowerOf2_three() {
+        assertFalse(isPowerOf2(3));
+    }
+
+    @Test
+    public void testIsPowerOf2_four() {
+        assertTrue(isPowerOf2(4));
+    }
+
+    @Test
+    public void testIsPowerOf2_five() {
+        assertFalse(isPowerOf2(5));
+    }
+
+    @Test
+    public void testIsPowerOf2_six() {
+        assertFalse(isPowerOf2(6));
+    }
+
+    @Test
+    public void testIsPowerOf2_eight() {
+        assertTrue(isPowerOf2(4));
+    }
+
+    @Test
+    public void testIsPowerOf2_sixteen() {
+        assertTrue(isPowerOf2(4));
+    }
+
+    @Test
+    public void testIsPowerOf2_thirtyTwo() {
+        assertTrue(isPowerOf2(32));
+    }
+
+    @Test
+    public void testIsPowerOf2_leftMost() {
+        assertTrue(isPowerOf2(fromBinary("1000000000000000000000000000000")));
+    }
+
+    @Test
+    public void testIsPowerOf2_leftMostAndAnother() {
+        assertFalse(isPowerOf2(fromBinary("1000000000000010000000000000000")));
+    }
 
 }
